@@ -1,8 +1,8 @@
 /* Top clientes con más facturas*/
 SELECT c.nombre || ' ' || c.apellido AS NOMBRE_APELLIDO
 FROM cliente c
-LEFT JOIN factura f ON c.id = f.cliente_id
-GROUP BY c.id, c.nombre, c.apellido
+LEFT JOIN factura f ON c.id=f.cliente_id
+GROUP BY c.id,c.nombre,c.apellido
 ORDER BY COUNT(f.id) DESC;
 
 /*Top clientes que más gastaron*/
@@ -73,13 +73,16 @@ ORDER BY COALESCE (SUM(fd.cantidad * p.precio),0) DESC;
 
 /*Mostrar el iva 10% de los montos totales de facturas (suponer que todos 
 los productos tienen IVA 10%)*/
+
 SELECT f.id AS "ID FACTURA",
-       COALESCE(SUM(fd.cantidad * p.precio * 0.1), 0) AS "Total con IVA 10%"
+COALESCE(SUM(fd.cantidad * p.precio * 0.1), 0) AS "Total con IVA 10%"
 FROM factura f
 LEFT JOIN factura_detalle fd ON f.id = fd.factura_id  
 LEFT JOIN producto p ON fd.producto_id = p.id 
 GROUP BY f.id
-ORDER BY COALESCE(SUM((fd.cantidad * p.precio) + (fd.cantidad * p.precio * 0.1)), 0) DESC;
+ORDER BY COALESCE(SUM(fd.cantidad * p.precio * 0.1), 0) DESC;
+
+
 
 
 
